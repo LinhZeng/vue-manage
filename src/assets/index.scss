@@ -1,0 +1,507 @@
+//初始化样式
+html {
+  //overflow-y: scroll;
+}
+
+ul, li {
+  list-style: none;
+  padding: 0;
+}
+
+#app {
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.table-text {
+  white-space: normal !important;
+  line-height: 23px !important;
+}
+
+//头部公共样式start
+.common_header_block {
+  width: 100%;
+  background-color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.breadcrumb_class {
+  padding: 16px;
+}
+
+.el-breadcrumb__inner {
+  font-size: 14px !important;
+  color: #000000 !important;
+  font-weight: 600 !important;
+}
+
+.el-divider--horizontal {
+  margin: 0 !important;
+}
+
+.search_form {
+  padding: 16px 16px 0 16px;
+  box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
+}
+
+.table_header_block {
+  background-color: #ffffff;
+  padding: 10px 14px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.table_header_right {
+  float: right;
+}
+
+.el-radio-group {
+  vertical-align: top !important;
+}
+
+.components_block {
+  width: 100%;
+}
+
+.echarts_block {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.common_table_class {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.common_form_btn {
+  margin-top: 40px;
+}
+
+//头部公共样式end
+
+//添加标签公共样式 -- start---
+.common_tag_block {
+  width: 400px;
+  border: 1px solid #DCDFE6;
+  border-radius: 4px;
+
+  .checkHead {
+    height: 40px;
+    background-color: #e6efed;
+    border-bottom: 1px solid #DCDFE6;
+    overflow: hidden;
+    padding: 0 12px;
+
+    .checkHeadLeft {
+      float: left;
+      font-size: 14px;
+      color: #000000;
+    }
+
+    .checkHeadRight {
+      float: right;
+      font-size: 14px;
+      color: #409EFF;
+    }
+  }
+
+  .tagList {
+    min-height: 150px;
+    max-height: 300px;
+    padding: 12px;
+    overflow-y: scroll;
+  }
+
+  .tagInfo {
+    margin-right: 12px;
+    margin-bottom: 8px;
+  }
+}
+
+//添加标签公共样式 -- end---
+
+//数据中心样式
+.dataCenter-app-container {
+  .common_header_block {
+    margin-bottom: 0;
+  }
+
+  .datePicker_block {
+    background: #fff;
+    padding: 10px;
+    padding-bottom: 0;
+  }
+
+  .appPicker_block {
+    background: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+
+.row-mt {
+  margin-top: 15px;
+}
+
+.tt-label {
+  color: #2a3542;
+  font-size: 15px;
+  margin-right: 20px;
+  vertical-align: middle;
+  font-family: 'Microsoft YaHei';
+}
+
+.tt-label-select {
+  color: #333c4a;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.tt-checkbox-group {
+  display: inline-block;
+}
+
+.tt-data-picker {
+  .el-range-separator {
+    width: 10% !important;
+  }
+}
+
+.tt-pagination-container {
+  text-align: left;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.dataPicker .el-radio-group {
+  vertical-align: middle !important;
+}
+
+//数据中心样式 -- end---
+
+
+.common_no_content {
+  font-size: 14px;
+  color: #F56C6C;
+}
+
+.commonDataTable {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+
+//下拉条件筛选样式 -----start-----
+.el-select__tags:first-child span:first-child .el-tag:first-child .el-select__tags-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+  width: 60px;
+}
+
+.el-select__tags:first-child span:first-child .el-tag:first-child {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.el-select__tags:first-child span:first-child .el-tag:nth-child(2) {
+  display: inline-block;
+  vertical-align: middle;
+  padding: 0 2px !important;
+}
+
+.select_block_btn {
+  margin-top: 12px;
+  margin-left: 16px;
+  margin-bottom: 10px;
+  margin-right: 16px;
+}
+
+.common_select_search {
+  margin-top: 10px;
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
+.common_select_search .el-input__inner {
+  height: 34px !important;
+}
+
+.common_select_search_name {
+  width: 200px !important;
+}
+
+.common_all_select_class {
+  color: #409EFF;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+//下拉条件筛选样式 -----end-----
+
+//媒体计划公用样式 ---start---
+#advert_manager_common {
+  .headDataBlock {
+    padding: 8px 16px;
+
+    .headDataInfo {
+      font-size: 14px;
+      color: #606266;
+      margin-left: 20px;
+    }
+
+    .headDataInfo1 {
+      font-weight: 600;
+    }
+  }
+
+  .planTypeBlock {
+    margin-left: 10px;
+    margin-right: 10px;
+    overflow: hidden;
+    display: inline-block;
+    margin-bottom: 5px;
+  }
+
+  .filtersText {
+    font-size: 14px;
+    color: #000000;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  .el-progress {
+    display: inline-block;
+    width: 200px;
+  }
+
+  .el-radio-button__inner {
+    padding: 16px 70px;
+    border-radius: 0;
+  }
+
+  .icon_class {
+    font-weight: 600;
+  }
+
+  .el-form-item__content .el-button {
+    font-weight: 400 !important;
+  }
+
+  .all_change_block {
+    position: absolute;
+    top: 53px;
+    left: 133px;
+    width: 105px;
+    height: auto;
+    background-color: #ffffff;
+    z-index: 100;
+    box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
+    text-align: center;
+  }
+
+  .all_change_text {
+    font-size: 14px;
+    color: #606266;
+    font-weight: 600;
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .all_change_btn {
+    // display: inline-block !important;
+    text-align: center;
+    padding-top: 0 !important;
+  }
+}
+
+//媒体计划公用样式 ---end---
+
+//媒体详情弹窗公共样式  --start--
+#check_info_common {
+  font-size: 12px;
+  color: #606266;
+
+  .common_head_text {
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 16px;
+  }
+
+  .common_head_text1 {
+    font-size: 14px;
+  }
+
+  .common_head_text2 {
+    font-size: 14px;
+    padding-top: 16px;
+    padding-left: 12px;
+    font-weight: 600;
+  }
+
+  .common_head_border {
+    border-bottom: solid 1px #DCDFE6;
+  }
+
+  .common_block {
+    margin-bottom: 16px;
+  }
+
+  .common_count {
+    font-weight: 600;
+    word-wrap: break-word;
+  }
+
+  .common_block_right {
+    margin-left: 70px;
+  }
+
+  .common_block_content {
+    margin-top: 16px;
+    margin-left: 12px;
+  }
+
+  .common_block_content1 {
+    margin-top: 12px;
+    padding-left: 24px;
+    overflow: hidden;
+  }
+
+  .head_block_class {
+    padding: 24px;
+  }
+
+  .content_block_class {
+    padding: 16px;
+    border: solid 12px #f4f6f9;
+  }
+
+  .config_block_class {
+    padding: 16px;
+    border-left: solid 12px #f4f6f9;
+    border-right: solid 12px #f4f6f9;
+    border-bottom: solid 12px #f4f6f9;
+  }
+}
+
+//媒体详情弹窗公共样式  --end--
+
+//预览图片弹窗关闭按钮样式
+.el-image-viewer__close {
+  color: #ffffff !important;
+}
+
+//选择渠道账号公共样式
+.common_account_block {
+  border: 1px solid #DCDFE6;
+  width: 480px;
+}
+
+.account_check_list {
+  min-height: 100px;
+  max-height: 250px;
+  padding: 12px;
+  overflow-y: scroll;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
+
+  .account_check_info {
+    display: block;
+    margin-bottom: 6px;
+    margin-left: 0;
+  }
+}
+
+.common_account_head {
+  height: 40px;
+  background-color: #F5F7FA;
+  border-bottom: 1px solid #DCDFE6;
+  overflow: hidden;
+
+  .account_head_left {
+    line-height: 39px;
+    margin-left: 11px;
+  }
+
+  .account_head_right {
+    margin-top: 6px;
+    float: right;
+    padding-right: 16px;
+  }
+}
+
+#app .el-checkbox + .el-checkbox {
+  margin-left: 0;
+}
+
+#app .el-radio + .el-radio {
+  margin-left: 0;
+}
+
+#app .el-button + .el-button {
+  margin-left: 0;
+}
+
+#app .el-button--text + .el-button--text {
+  margin-left: 10px;
+}
+
+#app .el-input-number input {
+  text-align: left;
+}
+
+// fix: 如果去除了该样式，多选的el-select刷新会有变大变小问题，所以这里写死了高度
+.el-select--small .el-input__inner {
+  min-height: 32px !important;
+}
+
+.el-select--small .el-select__tags {
+  min-height: 25px;
+}
+
+.empty-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: #C0C4CC;
+}
+
+.el-select-dropdown.is-multiple .el-select-dropdown__item.selected::after {
+  right: 8px !important;
+}
+
+//
+//.common_table_header-fixed {
+//  position: fixed;
+//  top: 0;
+//  width: 100%;
+//  z-index: 2000;
+//  background: #fff;
+//}
+//
+//.table-header-fixed {
+//  position: fixed;
+//  top: 80px;
+//  width: 100%;
+//  z-index: 2000;
+//}
