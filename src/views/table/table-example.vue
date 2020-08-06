@@ -39,7 +39,7 @@
 
     <el-col class="components_block">
       <div class="common_table_class">
-        <el-table ref="singleTable" v-loading="listLoading" 
+        <!-- <el-table ref="singleTable" v-loading="listLoading" 
               :data="productPackList" 
               header-row-class-name="tableHander"
               border style="width: 100%;"max-height="800">
@@ -76,13 +76,22 @@
           </el-table-column>
         </el-table>
 
-        <pagination v-show="total>0" :total="total" :page.sync="page" :limit.sync="size"  @pagination="getList"></pagination>
+        <pagination v-show="total>0" :total="total" :page.sync="page" :limit.sync="size"  @pagination="getList"></pagination> -->
+
+        <better-table :columns="columns" ref="table" :total-data="totalData">
+          <span slot-scope="{row}" slot="date">{{row.createTime | dateformat}}</span>
+          <span slot-scope="{row}" slot="date">{{row.modifyTime | dateformat}}</span>
+          <template slot-scope="scope" slot="button">
+            <el-button type="text" @click="getDetail(scope.row.id)">修改</el-button>
+            <el-button type="text" @click="handleDel(scope.row.id)">删除</el-button>
+          </template>
+        </better-table>
 
         <better-dialog :visible.sync="dialogVisible" titie="dialog" width="800px" 
           @confirmClick="dialogVisible=false" :loading="loading" cancel-text=''>
           <div>内容</div>
         </better-dialog>
-        
+
       </div>
     </el-col>
   </el-row>
@@ -97,83 +106,99 @@ export default {
     return {
       loading: false,
       dialogVisible:false,
-      total: 20,
-      page: 1,
-      size: 10,
-      productPackList: [
-        {
-          app: {id: 1, name: "TT语音", sys: 2, createTime: 1574070879000, modifyTime: 1586403613000},
-          appId: 1,
-          channel: {id: 1, name: "头条", createTime: 1574154900000, modifyTime: 1586398052000, channelName: "toutiao"},
-          channelId: 1,
-          cpId: "1114",
-          createTime: 1595835554000,
-          editorId: 21,
-          id: 221,
-          modifyTime: 1595901965000,
-          name: "1212118",
-          packageName: "TT语音(非纯净版)",
-          packageTypeId: 1,
-          sys: 2,
-          sysName: "安卓",
-          tapName: "",
-          url: "https://d.52tt.com/tt/B59865284.wzry/tt.apk",
-        },
-        {
-          app: {id: 1, name: "TT语音", sys: 2, createTime: 1574070879000, modifyTime: 1586403613000},
-          appId: 1,
-          channel: {id: 1, name: "头条", createTime: 1574154900000, modifyTime: 1586398052000, channelName: "toutiao"},
-          channelId: 1,
-          cpId: "1114",
-          createTime: 1595835554000,
-          editorId: 21,
-          id: 221,
-          modifyTime: 1595901965000,
-          name: "1212118",
-          packageName: "TT语音(非纯净版)",
-          packageTypeId: 1,
-          sys: 2,
-          sysName: "安卓",
-          tapName: "",
-          url: "https://d.52tt.com/tt/B59865284.wzry/tt.apk",
-        },
-        {
-          app: {id: 1, name: "TT语音", sys: 2, createTime: 1574070879000, modifyTime: 1586403613000},
-          appId: 1,
-          channel: {id: 1, name: "头条", createTime: 1574154900000, modifyTime: 1586398052000, channelName: "toutiao"},
-          channelId: 1,
-          cpId: "1114",
-          createTime: 1595835554000,
-          editorId: 21,
-          id: 221,
-          modifyTime: 1595901965000,
-          name: "1212118",
-          packageName: "TT语音(非纯净版)",
-          packageTypeId: 1,
-          sys: 2,
-          sysName: "安卓",
-          tapName: "",
-          url: "https://d.52tt.com/tt/B59865284.wzry/tt.apk",
-        },
-        {
-          app: {id: 1, name: "TT语音", sys: 2, createTime: 1574070879000, modifyTime: 1586403613000},
-          appId: 1,
-          channel: {id: 1, name: "头条", createTime: 1574154900000, modifyTime: 1586398052000, channelName: "toutiao"},
-          channelId: 1,
-          cpId: "1114",
-          createTime: 1595835554000,
-          editorId: 21,
-          id: 221,
-          modifyTime: 1595901965000,
-          name: "1212118",
-          packageName: "TT语音(非纯净版)",
-          packageTypeId: 1,
-          sys: 2,
-          sysName: "安卓",
-          tapName: "",
-          url: "https://d.52tt.com/tt/B59865284.wzry/tt.apk",
-        },
+      columns: [
+        { label: '包ID', prop: 'cpId', align: 'center' },
+        { label: '媒体', prop: 'channel.name', align: 'center' },
+        { label: '产品', prop: 'app.name', align: 'center' },
+        { label: '包名', prop: 'name', align: 'center' },
+        { label: '绑包内容', prop: 'packageName', align: 'center' },
+        { label: '包链接', prop: 'url', align: 'center' },
+        { label: '操作系统', prop: 'sysName', align: 'center' },
+        { label: '上传时间', prop: 'createTime', slots:'date', align: 'center' },
+        { label: '修改时间', prop: 'modifyTime', slots:'date', align: 'center' },
+        { label: '操作管理', slots:'button', align: 'center' },
       ],
+      totalData: {
+        data: [
+          {
+            app: {id: 1, name: "TT语音", sys: 2, createTime: 1574070879000, modifyTime: 1586403613000},
+            appId: 1,
+            channel: {id: 1, name: "头条", createTime: 1574154900000, modifyTime: 1586398052000, channelName: "toutiao"},
+            channelId: 1,
+            cpId: "1114",
+            createTime: 1595835554000,
+            editorId: 21,
+            id: 221,
+            modifyTime: 1595901965000,
+            name: "1212118",
+            packageName: "TT语音(非纯净版)",
+            packageTypeId: 1,
+            sys: 2,
+            sysName: "安卓",
+            tapName: "",
+            url: "https://d.52tt.com/tt/B59865284.wzry/tt.apk"
+          },
+          {
+            app: {id: 1, name: "TT语音", sys: 2, createTime: 1574070879000, modifyTime: 1586403613000},
+            appId: 1,
+            channel: {id: 1, name: "头条", createTime: 1574154900000, modifyTime: 1586398052000, channelName: "toutiao"},
+            channelId: 1,
+            cpId: "1114",
+            createTime: 1595835554000,
+            editorId: 21,
+            id: 221,
+            modifyTime: 1595901965000,
+            name: "1212118",
+            packageName: "TT语音(非纯净版)",
+            packageTypeId: 1,
+            sys: 2,
+            sysName: "安卓",
+            tapName: "",
+            url: "https://d.52tt.com/tt/B59865284.wzry/tt.apk",
+          },
+          {
+            app: {id: 1, name: "TT语音", sys: 2, createTime: 1574070879000, modifyTime: 1586403613000},
+            appId: 1,
+            channel: {id: 1, name: "头条", createTime: 1574154900000, modifyTime: 1586398052000, channelName: "toutiao"},
+            channelId: 1,
+            cpId: "1114",
+            createTime: 1595835554000,
+            editorId: 21,
+            id: 221,
+            modifyTime: 1595901965000,
+            name: "1212118",
+            packageName: "TT语音(非纯净版)",
+            packageTypeId: 1,
+            sys: 2,
+            sysName: "安卓",
+            tapName: "",
+            url: "https://d.52tt.com/tt/B59865284.wzry/tt.apk",
+          },
+          {
+            app: {id: 1, name: "TT语音", sys: 2, createTime: 1574070879000, modifyTime: 1586403613000},
+            appId: 1,
+            channel: {id: 1, name: "头条", createTime: 1574154900000, modifyTime: 1586398052000, channelName: "toutiao"},
+            channelId: 1,
+            cpId: "1114",
+            createTime: 1595835554000,
+            editorId: 21,
+            id: 221,
+            modifyTime: 1595901965000,
+            name: "1212118",
+            packageName: "TT语音(非纯净版)",
+            packageTypeId: 1,
+            sys: 2,
+            sysName: "安卓",
+            tapName: "",
+            url: "https://d.52tt.com/tt/B59865284.wzry/tt.apk",
+          },
+        ],
+        params:{
+          offset: 1,
+          count: 10
+        },
+        total: 20
+      },
       listLoading: false,
       filters: {
         cpId: undefined, //包ID

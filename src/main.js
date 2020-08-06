@@ -17,12 +17,8 @@ import './utils/error-log' // error log
 import './utils/components';
 
 import * as filters from './filters' // global filters
-
-// 引入时间格式化插件
-import moment from 'moment'
-Vue.filter('dateformat', function(dataStr, pattern='YYYY/MM/DD HH:mm:ss') {
-  return moment(dataStr).format(pattern);
-})
+import plugins from './utils/plugins'; // 插件
+Vue.use(plugins);
 
 /**
  * If you don't want to use mock-server
