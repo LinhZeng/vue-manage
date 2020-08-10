@@ -82,12 +82,11 @@
               <el-input placeholder="输入包链接" v-model="productInfo.url" clearable style="width:250px"
                 @change="changeUrl(productInfo.url)"></el-input>
             </el-form-item>
-            <el-form-item class="common_form_btn" style="display: block;margin-left:250px">
-              <el-button type="primary" @click="addComfirm()" :loading="loadBol">{{loadBol==false?'确认编辑':'数据请求中'}}</el-button>
-            </el-form-item>
           </el-form>
+          <template slot="footer">
+            <el-button type="primary" @click="addComfirm()" :loading="loadBol">{{loadBol==false?'确认':'数据请求中'}}</el-button>
+          </template>
         </better-dialog>
-
       </div>
     </el-col>
   </el-row>
@@ -102,6 +101,7 @@ export default {
   data() {
     return {
       loading: false,
+      loadBol: false,
       dialogVisible:false,
       columns: [
         { label: '包ID', prop: 'cpId', align: 'center' },
@@ -130,25 +130,29 @@ export default {
         desc:true
       },
       systemList: [{
-        systemId: 1,
-        systemName: "IOS",
-      }, {
-        systemId: 2,
-        systemName: "安卓",
+          systemId: 1,
+          systemName: "IOS",
+        }, {
+          systemId: 2,
+          systemName: "安卓",
       }],
       mediaList: [{
-        mediaId: 1,
-        mediaName: "头条",
-      }, {
-        mediaId: 2,
-        mediaName: "快手",
-      }, {
-        mediaId: 3,
-        mediaName: "广点通",
+          mediaId: 1,
+          mediaName: "头条",
+        }, {
+          mediaId: 2,
+          mediaName: "快手",
+        }, {
+          mediaId: 3,
+          mediaName: "广点通",
       }],
       tiePackList:[],
       request: {
         post: this.$apis.tableExample.getList,
+        getAppList: this.$apis.tableExample.getAppList,
+        getChannelList: this.$apis.tableExample.getChannelList,
+        getTiePack: this.$apis.tableExample.getTiePack,
+        save: this.$apis.tableExample.save,
       },
       productInfo: {
         appId: '',
@@ -158,7 +162,13 @@ export default {
         name: '',
         cpId: '',
         url: ''
-      }
+      },
+      commonFilters: {
+        offset: 0,
+        count: 100
+      },
+      appList:[],
+      channelList:[],
     }
   },
   methods: {
@@ -167,7 +177,9 @@ export default {
     },
     addProductPack() {
       this.dialogVisible = true;
-      console.log(this.dialogVisible)
+      this.getAppList();
+      this.getChannelList();
+      this.getTiePack();
     },
     addTransform() {
 
@@ -180,7 +192,99 @@ export default {
     },
     getList() { // 切换页码的函数
       console.log('pagination')
-    }
+    },
+    async getAppList() { // 获取产品列表
+      let requestParams = {
+        record: {},
+        offset: this.commonFilters.offset,
+        count: this.commonFilters.count
+      };
+      let res={};
+      res = await this.request.getAppList(requestParams);
+      console.log(res)
+      this.appList = res.data.rows;
+    },
+    async getChannelList() { // 获取媒体列表
+      let requestParams = {
+        record: {},
+        offset: this.commonFilters.offset,
+        count: this.commonFilters.count
+      };
+      let res={};
+      res = await this.request.getChannelList(requestParams);
+      console.log(res)
+      this.channelList = res.data.rows;
+    },
+    async getTiePack() { // 获取绑包内容列表
+      let requestParams = {
+        record: {},
+        offset: this.commonFilters.offset,
+        count: this.commonFilters.count
+      };
+      let res={};
+      res = await this.request.getTiePack(requestParams);
+      console.log(res)
+      this.tiePackList = res.data.rows;
+    },
+    changeId(cpId) {
+      if(this.productInfo.cpId) {
+        let productPackList =this.totalData.data;
+        for(var i=0;i<productPackList.length;i++) {
+          if(productPackList[i].cpId == cpId) {
+            this.productInfo.cpId = '';
+            this.$message.error('该包ID已存在');
+            return;
+          }
+        }
+      }
+    },
+    changeUrl(url) {
+      if(this.productInfo.url) {
+        let productPackList =this.totalData.data;
+        for(var i=0;i<productPackList.length;i++) {
+          if(productPackList[i].sys == 2 && productPackList[i].url == url) {
+            this.productInfo.url = '';
+            this.$message.error('该包链接已存在');
+            return;
+          }
+        }
+      }
+    },
+    async addComfirm() {
+      if(this.productInfo.appId) {
+        this.$message.error('请先选择产品');
+        return;
+      }
+      if(this.productInfo.channelId) {
+        this.$message.error('请先选择媒体');
+        return;
+      }
+      if(this.productInfo.packageTypeId) {
+        this.$message.error('请先选择绑包内容');
+        return;
+      }
+      if(this.productInfo.sys) {
+        this.$message.error('请先选择操作系统');
+        return;
+      }
+      if(this.productInfo.name) {
+        this.$message.error('请先输入包名');
+        return;
+      }
+      if(this.productInfo.cpId) {
+        this.$message.error('请先输入包ID');
+        return;
+      }
+      if(this.productInfo.url) {
+        this.$message.error('请先输入包链接');
+        return;
+      }
+      this.loadBol = true;
+      let res = {};
+      // res = await this.request.save(this.productInfo);
+      console.log(res);
+    },
+
   }
 }
 </script>
