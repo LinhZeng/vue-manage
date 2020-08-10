@@ -59,8 +59,18 @@ export default {
     }
   },
   methods: {
-    getList(){
-
+    pageInit() {
+      let component = this.$parent;
+      while(!component.init) {
+        component = component.$parent;
+      }
+      return component.init();
+    },
+    getList(val){
+      this.totalData.params.offset = val.page;
+      this.totalData.params.count = val.limit;
+      const init = this.customInit || this.pageInit;
+      init && init();
     },
     showLoading() {
       this.tableLoading = true;
