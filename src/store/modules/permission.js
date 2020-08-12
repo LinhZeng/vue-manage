@@ -1,69 +1,61 @@
 import { asyncRoutes, constantRoutes } from '@/router'
 
 /**
- * Use meta.role to determine if the current user has permission
+ * 通过meta.role判断是否与当前用户权限匹配
  * @param roles
  * @param route
  */
 function hasPermission(roles, route) {
   if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
+    const menuRoles = route.meta.roles;
+    return roles.some(item => menuRoles.indexOf(item.id)!==-1)
   } else {
-    return true
+    return false
   }
 }
 
 /**
- * Filter asynchronous routing tables by recursion
- * @param routes asyncRoutes
+ * 递归过滤异步路由表，返回符合用户角色权限的路由表
+ * @param asyncRoutes
  * @param roles
  */
-export function filterAsyncRoutes(routes, roles) {
-  const res = []
-
-  routes.forEach(route => {
-    const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+function filterAsyncRouter(asyncRoutes, roles) {
+  const accessdRouters = asyncRoutes.filter(route => {
+    console.log(route)
+    if(hasPermission(roles, route)) {
+      if(route.children && route.children.length) {
+        route.children = filterAsyncRouter(route.children, roles);
       }
-      res.push(tmp)
+      return true;
     }
+    return false
   })
-
-  return res
+  return accessdRouters;
 }
 
-const state = {
-  routes: [],
-  addRoutes: []
-}
-
-const mutations = {
-  SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
+const permission = {
+  state: {
+    routers: constantRoutes,
+    addRouters: []
+  },
+  mutations: {
+    SET_ROUTERS: (state, routers) => {
+      state.addRouters = routers;
+      state.routers = constantRoutes.concat(routers);
+    }
+  },
+  actions: {
+    GenerateRoutes({commit}, data) {
+      return new Promise(resolve => {
+        const {roles} = data;
+        console.log(asyncRoutes);
+        const accessdRouters = filterAsyncRouter(asyncRoutes, roles);
+        console.log(accessdRouters);
+        commit('SET_ROUTERS', accessdRouters);
+        resolve();
+      });
+    }
   }
-}
+};
 
-const actions = {
-  generateRoutes({ commit }, roles) {
-    return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
-    })
-  }
-}
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
-}
+export default permission;

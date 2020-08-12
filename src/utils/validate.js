@@ -2,6 +2,8 @@
  * Created by PanJiaChen on 16/11/18.
  */
 
+import instance from "@/request/request"
+
 /**
  * @param {string} path
  * @returns {Boolean}
@@ -84,4 +86,22 @@ export function isArray(arg) {
     return Object.prototype.toString.call(arg) === '[object Array]'
   }
   return Array.isArray(arg)
+}
+
+/**
+ * 判断是否为空
+ */
+export function validatenull(val) {
+  if(typeof val === 'boolean') {
+    return false;
+  }
+  if(val instanceof Array) {
+    if(val.length === 0) return true;
+  } else if (val instanceof Object) {
+    if(JSON.stringify(val) === '{}') return true;
+  } else {
+    if(val === 'null' || val == null || val === 'undefined' || val == undefined || val==='') return true;
+    return false;
+  }
+  return false;
 }

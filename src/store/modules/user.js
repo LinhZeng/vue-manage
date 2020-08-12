@@ -1,131 +1,163 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import router, { resetRouter } from '@/router'
+import { setStore, getStore, removeStore } from '@/utils/store';
 
-const state = {
-  token: getToken(),
-  name: '',
-  avatar: '',
-  introduction: '',
-  roles: []
+
+var data = {
+  user: {
+    roleId: 1,
+    id: 1,
+  },
+  username: 'llllllllllz',
+  resources: [
+    {
+      available: false,
+      id: 875,
+      name: "起飞项目后台",
+      parentId: 1,
+      parentIds: "0/1/",
+      permission: "wefly",
+      rootNode: false,
+      type: "menu",
+      url: "/wefly",
+    },
+    {
+      available: false,
+      id: 881,
+      name: "首页",
+      parentId: 875,
+      parentIds: "0/1/875/",
+      permission: "",
+      rootNode: false,
+      type: "menu",
+      url: "dashboard"
+    },
+    {
+      available: false,
+      id: 882,
+      name: "首页",
+      parentId: 881,
+      parentIds: "0/1/875/881/",
+      permission: "",
+      rootNode: false,
+      type: "menu",
+      url: "dashboard",
+    },
+    {
+      available: false,
+      id: 883,
+      name: "table",
+      parentId: 875,
+      parentIds: "0/1/875/",
+      permission: "",
+      rootNode: false,
+      type: "menu",
+      url: "table"
+    },
+    {
+      available: false,
+      id: 884,
+      name: "table-examplae",
+      parentId: 883,
+      parentIds: "0/1/875/883/",
+      permission: "",
+      rootNode: false,
+      type: "menu",
+      url: "table-example"
+    }
+  ]
 }
 
-const mutations = {
-  SET_TOKEN: (state, token) => {
-    state.token = token
+const user = {
+  state: {
+    token: '',
+    name: '',
+    avatar: '',
+    introduction: '',
+    roles: [],
+    isLock: getStore({
+      name: 'isLock'
+    }) || false,
+    lockPasswd: getStore({
+      name: 'lockPasswd'
+    }) || '',
+    browserHeaderTitle: getStore({
+      name: 'browserHeaderTitle'
+    }) || '起飞后台'
   },
-  SET_INTRODUCTION: (state, introduction) => {
-    state.introduction = introduction
+  mutations: {
+    SET_TOKEN: (state, token) => {
+      state.token = token
+    },
+    SET_INTRODUCTION: (state, introduction) => {
+      state.introduction = introduction
+    },
+    SET_NAME: (state, name) => {
+      state.name = name
+    },
+    SET_AVATAR: (state, avatar) => {
+      state.avatar = avatar
+    },
+    SET_ROLES: (state, roles) => {
+      sessionStorage.setItem(roles, JSON.stringify(roles))
+      state.roles = roles
+    },
+    SET_LOCK: (state, action) => {
+      state.isLock = true;
+      setStore({
+        name: 'isLock',
+        content: state.isLock,
+        type: 'session'
+      })
+    },
+    SET_LOCK_PASSWD: (state, lockPasswd) => {
+      state.lockPasswd = lockPasswd;
+      setStore({
+        name: 'lockPasswd',
+        content:state.lockPasswd,
+        type: 'session'
+      })
+    },
+    ClEAR_LOCK: (state, action) => {
+      state.isLock = false;
+      state.lockPasswd = '';
+      removeStore({
+        name: 'lockPasswd'
+      });
+      removeStore({
+        name: 'isLock'
+      })
+    },
+    SET_BROWSERHEADERTITLE: (state, action) => {
+      state.browserHeaderTitle = action.browserHeaderTitle
+    }
   },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
-  },
-  SET_ROLES: (state, roles) => {
-    state.roles = roles
+  actions: {
+    // 获取用户信息
+    GetUserInfo({commit, state}) {
+      const getUserInfo = () => {
+        return axios({
+          url: '',
+          method: 'post'
+        })
+      };
+      return new Promise((resolve, reject) => {
+        // getUserInfo().then(response => {});
+        localStorage.setItem('roleId', data.user.roleId);
+        localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userAccount', data.username);
+        if(data.resources) {
+          commit('SET_ROLES', data.resources);
+          commit('SET_NAME', data.username);
+        } else {
+          reject('getInfo: resources must be undefined !')
+        }
+        resolve(data);
+      }).catch(error => {
+        reject(error)
+      })
+    },
+    LogOut() {
+      window.location.href = process.env.VUE_APP_BASE_API + '/console/logout';
+    }
   }
 }
-
-const actions = {
-  // user login
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
-    return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // get user info
-  getInfo({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          reject('Verification failed, please Login again.')
-        }
-
-        const { roles, name, avatar, introduction } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        commit('SET_INTRODUCTION', introduction)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // user logout
-  logout({ commit, state, dispatch }) {
-    return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
-        commit('SET_TOKEN', '')
-        commit('SET_ROLES', [])
-        removeToken()
-        resetRouter()
-
-        // reset visited views and cached views
-        // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-        dispatch('tagsView/delAllViews', null, { root: true })
-
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  },
-
-  // remove token
-  resetToken({ commit }) {
-    return new Promise(resolve => {
-      commit('SET_TOKEN', '')
-      commit('SET_ROLES', [])
-      removeToken()
-      resolve()
-    })
-  },
-
-  // dynamically modify permissions
-  async changeRoles({ commit, dispatch }, role) {
-    const token = role + '-token'
-
-    commit('SET_TOKEN', token)
-    setToken(token)
-
-    const { roles } = await dispatch('getInfo')
-
-    resetRouter()
-
-    // generate accessible routes map based on roles
-    const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
-    // dynamically add accessible routes
-    router.addRoutes(accessRoutes)
-
-    // reset visited views and cached views
-    dispatch('tagsView/delAllViews', null, { root: true })
-  }
-}
-
-export default {
-  namespaced: true,
-  state,
-  mutations,
-  actions
-}
+export default user;
