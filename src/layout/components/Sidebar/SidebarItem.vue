@@ -67,7 +67,7 @@ export default {
     },
   },
   created() {
-    // console.log(this.routes)
+    console.log(this.routes)
     // for(const o in this.routes) {
     //   const obj = this.routes[o];
     //   if(obj.meta && obj.meta.isIframe) {

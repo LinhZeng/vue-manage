@@ -6,7 +6,7 @@
 
     <div class="right-menu">
       <template v-if="device!=='mobile'">
-        <!-- <np-tok-lock style="cursor:pointer" class="nx-help" :style="{color: themeColor}"></np-tok-lock> -->
+        <nx-top-lock style="cursor:pointer; color: #5a5e66;" class="right-menu-item nx-help"></nx-top-lock>
         
         <search id="header-search" class="right-menu-item" />
         <error-log class="errLog-container right-menu-item hover-effect" />
@@ -49,6 +49,7 @@ import { mapGetters } from 'vuex'
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 import ErrorLog from '@/components/ErrorLog'
+import nxTopLock from '@/components/nx-top-lock'
 import Screenfull from '@/components/Screenfull'
 import SizeSelect from '@/components/SizeSelect'
 import Search from '@/components/HeaderSearch'
@@ -58,6 +59,7 @@ export default {
     Breadcrumb,
     Hamburger,
     ErrorLog,
+    nxTopLock,
     Screenfull,
     SizeSelect,
     Search

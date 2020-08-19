@@ -35,7 +35,7 @@ export const getStore = (params) => {
   } else if (obj.dataType === 'number') {
     content = Number(obj.dataType);
   } else if(obj.dataType === 'boolean') {
-    content = eval(oj.content)
+    content = eval(obj.content)
   } else if (obj.dataType === 'object') {
     content = obj.content
   }

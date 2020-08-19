@@ -21,7 +21,6 @@ function hasPermission(roles, route) {
  */
 function filterAsyncRouter(asyncRoutes, roles) {
   const accessdRouters = asyncRoutes.filter(route => {
-    console.log(route)
     if(hasPermission(roles, route)) {
       if(route.children && route.children.length) {
         route.children = filterAsyncRouter(route.children, roles);

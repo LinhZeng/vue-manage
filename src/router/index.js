@@ -23,7 +23,7 @@ export const constantRoutes = [
   {
     path: '',
     component: Layout,
-    redirect: '/dashboard/dashboard',
+    redirect: '/dashboard',
   },
   {
     path: '/redirect',
@@ -54,6 +54,11 @@ export const constantRoutes = [
   {
     path: '/401',
     component: () => import('@/views/error-page/401'),
+    hidden: true
+  },
+  {
+    path: '/lock',
+    component: () => import('@/views/lock'),
     hidden: true
   },
 
@@ -104,59 +109,18 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {path:'*', redirect: '/404', hidden: true},
-  {
-    path: '/permission',
-    component: Layout,
-    redirect: '/permission/page',
-    alwaysShow: true, // will always show the root menu
-    name: 'Permission',
-    meta: {
-      title: 'Permission',
-      icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
-    },
-    children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: 'Page Permission',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
-      {
-        path: 'directive',
-        component: () => import('@/views/permission/directive'),
-        name: 'DirectivePermission',
-        meta: {
-          title: 'Directive Permission'
-          // if do not set roles, means: this page does not require permission
-        }
-      },
-      {
-        path: 'role',
-        component: () => import('@/views/permission/role'),
-        name: 'RolePermission',
-        meta: {
-          title: 'Role Permission',
-          roles: ['admin']
-        }
-      }
-    ]
-  },
   
   {
     path: '/dashboard',
     component: Layout,
     redirect: '/dashboard/dashboard',
-    meta: {title: 'Dashboard', icon: 'dashboard', affix: true, roles: [881]},
+    meta: {title: '首页', icon: 'dashboard', affix: true, roles: [881]},
     children: [
       {
         path: 'dashboard',
         component: dashboard,
         name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true, roles: [882]}
+        meta: { title: '首页', icon: 'dashboard', affix: true, roles: [882]}
       }
     ]
   },
@@ -169,7 +133,7 @@ export const asyncRoutes = [
         path: 'index',
         component: () => import('@/views/icons/index'),
         name: 'Icons',
-        meta: { title: 'Icons', icon: 'icon', noCache: true }
+        meta: { title: 'Icons', icon: 'icon', noCache: true, roles:[883] }
       }
     ]
   },

@@ -1,4 +1,4 @@
 export const setTitle = function(title) {
-  title = title ? title : '起飞后台';
-  window.document.title = '起飞后台-' + title;
+  title = title ? title : 'Pineapple后台';
+  window.document.title = 'Pineapple后台-' + title;
 }

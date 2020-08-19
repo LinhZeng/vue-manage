@@ -11,7 +11,7 @@ var data = {
     {
       available: false,
       id: 875,
-      name: "起飞项目后台",
+      name: "Pineapple项目后台",
       parentId: 1,
       parentIds: "0/1/",
       permission: "wefly",
@@ -55,13 +55,24 @@ var data = {
     {
       available: false,
       id: 884,
-      name: "table-examplae",
+      name: "table-example",
       parentId: 883,
       parentIds: "0/1/875/883/",
       permission: "",
       rootNode: false,
       type: "menu",
       url: "table-example"
+    },
+    {
+      available: false,
+      id: 885,
+      name: "complexTable",
+      parentId: 883,
+      parentIds: "0/1/875/883/",
+      permission: "",
+      rootNode: false,
+      type: "menu",
+      url: "complex-table"
     }
   ]
 }
@@ -81,7 +92,7 @@ const user = {
     }) || '',
     browserHeaderTitle: getStore({
       name: 'browserHeaderTitle'
-    }) || '起飞后台'
+    }) || 'Pineapple后台'
   },
   mutations: {
     SET_TOKEN: (state, token) => {
@@ -116,7 +127,7 @@ const user = {
         type: 'session'
       })
     },
-    ClEAR_LOCK: (state, action) => {
+    CLEAR_LOCK: (state, action) => {
       state.isLock = false;
       state.lockPasswd = '';
       removeStore({
