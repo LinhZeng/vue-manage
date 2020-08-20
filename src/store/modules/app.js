@@ -49,7 +49,7 @@ const actions = {
 }
 
 export default {
-  namespaced: true,
+  namespaced: true, // 成为待命名空间的模块。当模块被注册后它的所有getter、action及mutation都会自动根据模块注册的路径调整命名
   state,
   mutations,
   actions

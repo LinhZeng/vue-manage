@@ -74,6 +74,7 @@ export default {
   methods: {
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
+      // dispatch 异步操作，数据提交至actions；commit 同步操作，数据提交至mutations
     },
     async logout() {
       await this.$store.dispatch('user/logout')
