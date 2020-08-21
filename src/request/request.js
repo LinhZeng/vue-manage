@@ -3,7 +3,8 @@ import {Message} from 'element-ui';
 import qs from  'qs';
 
 export const config = {
-  baseURL: process.env.NODE_ENV === 'development' && sessionStorage.getItem('dev_api') ? 'http://' +sessionStorage.getItem('dev_api') : process.env.VUE_APP_BASE_API,
+  // baseURL: process.env.NODE_ENV === 'development' && sessionStorage.getItem('dev_api') ? 'http://' +sessionStorage.getItem('dev_api') : process.env.VUE_APP_BASE_API,
+  baseURL: process.env.VUE_APP_BASE_API,
   timeout: 30000,
   headers: {
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -19,9 +20,9 @@ instance.interceptors.request.use(config => {
 });
 
 instance.interceptors.response.use(res => {
-  if(res.data.state.code === 2000000) {
+  if(res.data.code == '200') {
     return Promise.resolve(res.data);
-  } else if(res.data.state.code === 5000001) {
+  } else if(res.data.code == '501') {
     if(res.data.data && res.data.data.length) {
       // 延迟一秒防止卡顿
       setTimeout(() => {

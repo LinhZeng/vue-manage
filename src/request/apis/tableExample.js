@@ -2,7 +2,7 @@ import {request} from '../request';
 
 export default {
   getList(params) {
-    return request('post', '/console/pdPackage/list', params);
+    return request('post', '/work/list', params);
   },
   getAppList(params) {
     return request('post', '/console/app/list', params);

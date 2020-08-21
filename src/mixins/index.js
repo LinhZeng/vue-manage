@@ -4,8 +4,8 @@ export default {
       totalData: {
         data: [], // 表格数据
         params: { // 分页数据
-          offset: 1, // 当前页码
-          count: 10  // 一页的大小
+          page: 1, // 当前页码
+          limit: 10  // 一页的大小
         },
         total: 0
       },
@@ -33,36 +33,38 @@ export default {
         this.$refs.table.showLoading();
         let form = (this.formAttr ? this.formAttr.model : this.form) || {};
         params = {...params, ...form};
-        console.log(params);
         if(this.beforeInit) 
           params = this.beforeInit(params);
         if(params && params.isSearch) { // 首页查询
           delete params.isSearch;
           this.totalData.params.offset = 1; 
         }
-        let count = this.totalData.params.count;
-        let offset = (this.totalData.params.offset - 1) * count;
+        let limit = this.totalData.params.limit;
+        let page = this.totalData.params.page;
         const { post } = this.request;
         let res = {}, requestParams = {};
         if(post) {
           requestParams = {
-            record: { ...params },
-            offset,
-            count
+            ...params,
+            page,
+            limit
           };
+          console.log(requestParams);
           if(this.order) {
             requestParams.order = this.order;
           }
           if(typeof post === 'object') {
             res = await post.method(requestParams);
             res = post.transform(res);
+            console.log(res)
           } else {
             res = await post(requestParams);
           }
           this.$refs.table.hideLoading();
-          if(res.data) {
-            this.totalData.data = res.data.rows || res.data.records || [];
-            this.totalData.total = Number(res.data.total);
+          if(res.result) {
+            this.totalData.data = res.result.list || [];
+            this.totalData.total = res.result.list.length;
+            // this.totalData.total = Number(res.data.total);
           } else {
             this.totalData.data = [];
             this.totalData.total = 0;

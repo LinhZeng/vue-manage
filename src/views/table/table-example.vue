@@ -7,7 +7,7 @@
       <el-divider></el-divider>
       <el-form :inline="true" class="search_form">
         <el-form-item label="包ID:">
-          <el-input placeholder="输入包ID" v-model="form.cpId" style="width:200px" clearable></el-input>
+          <el-input placeholder="输入包ID" v-model="form.channelId" style="width:200px" clearable></el-input>
         </el-form-item>
         <el-form-item label="包名:">
           <el-input placeholder="输入包名" v-model="form.name" style="width:200px" clearable></el-input>
@@ -20,9 +20,9 @@
             <el-option v-for="(item,index) in systemList" :key="index" :label="item.systemName" :value="item.systemId" />
           </el-select>
         </el-form-item>
-        <el-form-item label="媒体:">
-          <el-select  placeholder="选择媒体" v-model="form.channelId" style="width: 200px" clearable filterable>
-            <el-option v-for="(item,index) in mediaList" :key="index" :label="item.mediaName" :value="item.mediaId" />
+        <el-form-item label="类别:">
+          <el-select  placeholder="选择类别" v-model="form.type" style="width: 200px" clearable filterable>
+            <el-option v-for="(item,index) in typeList" :key="index" :label="item.typeName" :value="item.typeId" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -104,26 +104,25 @@ export default {
       loadBol: false,
       dialogVisible:false,
       columns: [
-        { label: '包ID', prop: 'cpId', align: 'center' },
-        { label: '媒体', prop: 'channel.name', align: 'center' },
-        { label: '产品', prop: 'app.name', align: 'center' },
-        { label: '包名', prop: 'name', align: 'center' },
-        { label: '绑包内容', prop: 'packageName', align: 'center' },
-        { label: '包链接', prop: 'url', align: 'center' },
-        { label: '操作系统', prop: 'sysName', align: 'center' },
-        { label: '上传时间', prop: 'createTime', slots:'date', align: 'center' },
-        { label: '修改时间', prop: 'modifyTime', slots:'date', align: 'center' },
+        { label: 'ID', prop: 'id', align: 'center' },
+        { label: '作品名称', prop: 'name', align: 'center' },
+        { label: '作者', prop: 'user.user_name', align: 'center' },
+        { label: '描述', prop: 'description', align: 'center' },
+        { label: '链接', prop: 'src', align: 'center' },
+        { label: '类型', prop: 'types', align: 'center' },
+        { label: '上传时间', prop: 'createDate', slots:'date', align: 'center' },
+        { label: '热度', prop: 'hot', align: 'center' },
         { label: '操作管理', slots:'button', align: 'center' },
       ],
       listLoading: false,
       form: {
-        cpId: undefined, //包ID
+        type: 1, //包ID
         name: undefined, //包名
         url: undefined, //地址
         sys: undefined, //操作系统
         channelId: undefined, //媒体
-        offset: 0, //起始索引值
-        count: 10, //每页多少条
+        page: 1, //起始索引值
+        limit: 10, //每页多少条
       },
       order: {
         colName: 'create_time',
@@ -136,15 +135,15 @@ export default {
           systemId: 2,
           systemName: "安卓",
       }],
-      mediaList: [{
-          mediaId: 1,
-          mediaName: "头条",
+      typeList: [{
+          typeId: 1,
+          typeName: "全部",
         }, {
-          mediaId: 2,
-          mediaName: "快手",
+          typeId: 2,
+          typeName: "插画",
         }, {
-          mediaId: 3,
-          mediaName: "广点通",
+          typeId: 3,
+          typeName: "摄影",
       }],
       tiePackList:[],
       request: {
@@ -164,8 +163,8 @@ export default {
         url: ''
       },
       commonFilters: {
-        offset: 0,
-        count: 100
+        page: 1,
+        limit: 10
       },
       appList:[],
       channelList:[],
@@ -196,8 +195,8 @@ export default {
     async getAppList() { // 获取产品列表
       let requestParams = {
         record: {},
-        offset: this.commonFilters.offset,
-        count: this.commonFilters.count
+        page: this.commonFilters.page,
+        limit: this.commonFilters.limit
       };
       let res={};
       res = await this.request.getAppList(requestParams);
@@ -207,8 +206,8 @@ export default {
     async getChannelList() { // 获取媒体列表
       let requestParams = {
         record: {},
-        offset: this.commonFilters.offset,
-        count: this.commonFilters.count
+        page: this.commonFilters.page,
+        limit: this.commonFilters.limit
       };
       let res={};
       res = await this.request.getChannelList(requestParams);
@@ -218,8 +217,8 @@ export default {
     async getTiePack() { // 获取绑包内容列表
       let requestParams = {
         record: {},
-        offset: this.commonFilters.offset,
-        count: this.commonFilters.count
+        page: this.commonFilters.page,
+        limit: this.commonFilters.limit
       };
       let res={};
       res = await this.request.getTiePack(requestParams);

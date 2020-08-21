@@ -17,7 +17,7 @@ import Pagination from '@/components/Pagination';
       </template>
     </el-table>
 
-    <pagination v-show="totalData.total>0" :total="totalData.total" :page.sync="totalData.params.offset" :limit.sync="totalData.params.count"  @pagination="getList"></pagination>
+    <pagination v-show="totalData.total>0" :total="totalData.total" :page.sync="totalData.page" :limit.sync="totalData.limit"  @pagination="getList"></pagination>
   </div>
 </template>
 
@@ -32,10 +32,8 @@ export default {
       default: () => {
         return {
           data: [],
-          params: {
-            offset:0,
-            count: 10
-          },
+          page:1,
+          limit: 10,
           total: 0
         }
       }
@@ -67,8 +65,8 @@ export default {
       return component.init();
     },
     getList(val){
-      this.totalData.params.offset = val.page;
-      this.totalData.params.count = val.limit;
+      this.totalData.page = val.page;
+      this.totalData.limit = val.limit;
       const init = this.customInit || this.pageInit;
       init && init();
     },
